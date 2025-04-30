@@ -1,3 +1,8 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
 trigger:
 - main   # or whatever branch you use
 
@@ -14,24 +19,11 @@ steps:
 
 - checkout: self
 
-# Step 1: Install Python dependencies
 - script: |
     python -m pip install --upgrade pip
-    pip install JayDeBeApi pandas
-  displayName: 'Install Python dependencies'
+    pip install pyjdbc pandas sqlalchemy
+  displayName: 'Install dependencies'
 
-# Step 2: Download and unzip the JDBC driver
 - script: |
-    curl -L -o jdbc_driver.zip https://aka.ms/download-jdbc-driver
-    unzip jdbc_driver.zip -d jdbc_driver
-  displayName: 'Download and unzip JDBC driver'
-
-# Step 3: List contents of unzipped folder to verify correct path (Optional)
-- script: |
-    ls -R jdbc_driver
-  displayName: 'List JDBC driver contents'
-
-# Step 4: Run your Python script (JDBC-based)
-- script: |
-    python Data-Wrangling.py
-  displayName: 'Run your Python script'
+    python test data wrangling.py
+  displayName: 'Run your code'

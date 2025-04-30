@@ -1,24 +1,34 @@
-import jaydebeapi
-import pandas as pd
-
+# Connection details
 server = 'dmc2025.database.windows.net'
 database = 'Leads'
 username = 'atefgh'
 password = 'Waxxaw123'
+driver = '{ODBC Driver 17 for SQL Server}'
 
-jdbc_url = f"jdbc:sqlserver://{server}:1433;databaseName={database};encrypt=true;trustServerCertificate=false"
-driver_class = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-jar_file = "jdbc_driver/sqljdbc_12.6/enu/mssql-jdbc-12.6.1.jre11.jar"  # Match extracted file
+conn_str = f"""
+DRIVER={driver};
+SERVER={server};
+DATABASE={database};
+UID={username};
+PWD={password};
+Encrypt=yes;
+TrustServerCertificate=no;
+Connection Timeout=30;
+"""
 
-conn = jaydebeapi.connect(
-    driver_class,
-    jdbc_url,
-    [username, password],
-    jar_file
-)
+# Connect
+conn = pyodbc.connect(conn_str)
 
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM your_existing_table")
-rows = cursor.fetchall()
-columns = [desc[0] for desc in cursor.description]
-df = pd.DataFrame(rows, columns=columns)
+# Run query
+query = "SELECT * FROM your_existing_table"
+df = pd.read_sql(query, conn)
+
+# Do your transformation
+df=df[["Email Address","Address Line1","City","State","Zip"]]
+
+# Write to new table
+df.to_sql('Silver', con=conn, if_exists='replace', index=False, method='multi')  
+# OR use cursor.execute() for manual INSERTS if needed
+
+
+
