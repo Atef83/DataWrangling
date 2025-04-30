@@ -1,5 +1,5 @@
 trigger:
-- main
+- main   # or whatever branch you use
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -14,18 +14,24 @@ steps:
 
 - checkout: self
 
-# Step 1: Install Python packages including JayDeBeApi
+# Step 1: Install Python dependencies
 - script: |
     python -m pip install --upgrade pip
     pip install JayDeBeApi pandas
   displayName: 'Install Python dependencies'
 
-# Step 2: Download Microsoft JDBC Driver (single JAR file)
+# Step 2: Download and unzip the JDBC driver
 - script: |
-    curl -L -o sqljdbc.jar https://aka.ms/download-jdbc-driver
-  displayName: 'Download JDBC driver'
+    curl -L -o jdbc_driver.zip https://aka.ms/download-jdbc-driver
+    unzip jdbc_driver.zip -d jdbc_driver
+  displayName: 'Download and unzip JDBC driver'
 
-# Step 3: Run your Python code (JDBC-based)
+# Step 3: List contents of unzipped folder to verify correct path (Optional)
+- script: |
+    ls -R jdbc_driver
+  displayName: 'List JDBC driver contents'
+
+# Step 4: Run your Python script (JDBC-based)
 - script: |
     python Data-Wrangling.py
   displayName: 'Run your Python script'
