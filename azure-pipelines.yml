@@ -1,10 +1,5 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main   # or whatever branch you use
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -18,6 +13,14 @@ steps:
     versionSpec: '$(python_version)'
 
 - checkout: self
+
+# Install Microsoft ODBC Driver for SQL Server
+- script: |
+    curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
+    sudo apt-get update
+    sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
+  displayName: 'Install ODBC Driver'
 
 - script: |
     python -m pip install --upgrade pip
