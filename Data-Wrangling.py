@@ -1,38 +1,30 @@
-import pyodbc
+import jaydebeapi
 import pandas as pd
-from sqlalchemy import create_engine
 
-# Connection details
+# Connection string details
 server = 'dmc2025.database.windows.net'
 database = 'Leads'
 username = 'atefgh'
 password = 'Waxxaw123'
-driver = '{ODBC Driver 17 for SQL Server}'
 
-# For reading with pyodbc
-conn_str = f"""
-DRIVER={driver};
-SERVER={server};
-DATABASE={database};
-UID={username};
-PWD={password};
-Encrypt=yes;
-TrustServerCertificate=no;
-Connection Timeout=30;
-"""
+jdbc_url = f"jdbc:sqlserver://{server}:1433;databaseName={database};encrypt=true;trustServerCertificate=false"
+driver_class = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+jar_file = "sqljdbc.jar"
 
-conn = pyodbc.connect(conn_str)
+# Connect using JDBC
+conn = jaydebeapi.connect(
+    driver_class,
+    jdbc_url,
+    [username, password],
+    jar_file
+)
 
-# Query
-query = "SELECT * FROM your_existing_table"
-df = pd.read_sql(query, conn)
+# Example: fetch data
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM your_existing_table")
+rows = cursor.fetchall()
+columns = [desc[0] for desc in cursor.description]
+df = pd.DataFrame(rows, columns=columns)
 
-# Transform
+# Transform + Write (manual insert or via sqlalchemy alt)
 df = df[["Email Address", "Address Line1", "City", "State", "Zip"]]
-
-# For writing with SQLAlchemy
-connection_url = f"mssql+pyodbc://{username}:{password}@{server}:1433/{database}?driver=ODBC+Driver+17+for+SQL+Server"
-engine = create_engine(connection_url)
-
-# Write to new table
-df.to_sql('Silver', con=engine, if_exists='replace', index=False, method='multi')

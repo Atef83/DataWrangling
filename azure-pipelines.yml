@@ -14,19 +14,18 @@ steps:
 
 - checkout: self
 
-# Install Microsoft ODBC Driver for SQL Server
-- script: |
-    curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-    sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
-    sudo apt-get update
-    sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev
-  displayName: 'Install ODBC Driver'
-
+# Step 1: Install Python packages including JayDeBeApi
 - script: |
     python -m pip install --upgrade pip
-    pip install pyodbc pandas sqlalchemy
-  displayName: 'Install dependencies'
+    pip install JayDeBeApi pandas
+  displayName: 'Install Python dependencies'
 
+# Step 2: Download Microsoft JDBC Driver (single JAR file)
+- script: |
+    curl -L -o sqljdbc.jar https://aka.ms/download-jdbc-driver
+  displayName: 'Download JDBC driver'
+
+# Step 3: Run your Python code (JDBC-based)
 - script: |
     python Data-Wrangling.py
-  displayName: 'Run your code'
+  displayName: 'Run your Python script'
