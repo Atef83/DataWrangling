@@ -17,7 +17,7 @@ Connection Timeout=30;
 """
 
 # Connect
-conn = pyodbc.connect(conn_str)
+conn = JDBC.connect(conn_str)
 
 # Run query
 query = "SELECT * FROM your_existing_table"
