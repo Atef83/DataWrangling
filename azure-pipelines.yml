@@ -21,7 +21,7 @@ steps:
 
 - script: |
     python -m pip install --upgrade pip
-    pip install pyjdbc pandas sqlalchemy
+    pip install pyodbc pandas sqlalchemy
   displayName: 'Install dependencies'
 
 - script: |
