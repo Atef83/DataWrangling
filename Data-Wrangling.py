@@ -3,7 +3,7 @@ server = 'dmc2025.database.windows.net'
 database = 'Leads'
 username = 'atefgh'
 password = 'Waxxaw123'
-driver = '{ODBC Driver 17 for SQL Server}'
+driver = '{JDBC Driver 17 for SQL Server}'
 
 conn_str = f"""
 DRIVER={driver};
