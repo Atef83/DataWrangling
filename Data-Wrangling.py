@@ -18,11 +18,11 @@ conn = engine.connect()
 query = "SELECT * FROM Leads"
 df = pd.read_sql(query, conn)
 
-# Do your transformation
+# Do your transformations
 df = df[["Email Address", "Address Line1", "City", "State", "Zip"]]
 
 # Write to new table
-df.to_sql('Silver', con=conn, if_exists='replace', index=False)
+df.to_sql('Silver', engine, if_exists='replace', index=False)
 
 
 
