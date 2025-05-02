@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
-
+import pandas as pd
 
 server = "dmc2025.database.windows.net"
 user = "atefgh"
@@ -11,7 +11,7 @@ dsn = "ODBC Driver 18 for SQL Server"
 engine = create_engine(f"mssql+pyodbc://{user}:%s@{server}/{db_name}?TrustServerCertificate=yes&driver={dsn}" % quote_plus(password))
 
 #Connect
-connection = engine.connect()
+conn = engine.connect()
 
 
 # Run query
