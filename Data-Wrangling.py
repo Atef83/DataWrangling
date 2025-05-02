@@ -1,17 +1,18 @@
-import pyodbc
-import pandas as pd
+from sqlalchemy import create_engine
+from urllib.parse import quote_plus
 
-# Connection details
-server = 'dmc2025.database.windows.net'
-database = 'Leads'
-username = 'atefgh'
-password = 'Waxxaw123'
-driver = '{ODBC Driver 18 for SQL Server}'
 
-conn_str = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+server = "dmc2025.database.windows.net"
+user = "atefgh"
+password = "Waxxaw123"
+db_name = "Leads"
+dsn = "ODBC Driver 18 for SQL Server"
 
-# Connect
-conn = pyodbc.connect(conn_str)
+engine = create_engine(f"mssql+pyodbc://{user}:%s@{server}/{db_name}?TrustServerCertificate=yes&driver={dsn}" % quote_plus(password))
+
+#Connect
+connection = engine.connect()
+
 
 # Run query
 query = "SELECT * FROM your_existing_table"
@@ -22,3 +23,8 @@ df = df[["Email Address", "Address Line1", "City", "State", "Zip"]]
 
 # Write to new table
 df.to_sql('Silver', con=conn, if_exists='replace', index=False)
+
+
+
+
+
