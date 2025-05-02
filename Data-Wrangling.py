@@ -5,7 +5,7 @@ import pandas as pd
 server = "dmc2025.database.windows.net"
 user = "atefgh"
 password = "Waxxaw123"
-db_name = "Leads"
+db_name = "dmc"
 dsn = "ODBC Driver 18 for SQL Server"
 
 engine = create_engine(f"mssql+pyodbc://{user}:%s@{server}/{db_name}?TrustServerCertificate=yes&driver={dsn}" % quote_plus(password))
