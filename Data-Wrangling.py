@@ -6,7 +6,7 @@ server = 'dmc2025.database.windows.net'
 database = 'Leads'
 username = 'atefgh'
 password = 'Waxxaw123'
-driver = '{ODBC Driver 17 for SQL Server}'
+driver = '{ODBC Driver 18 for SQL Server}'
 
 conn_str = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
 

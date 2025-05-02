@@ -23,7 +23,7 @@ steps:
     sudo curl -s https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
     sudo bash -c "curl -s https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list"
     sudo apt-get update
-    sudo apt-get install -y unixodbc-dev msodbcsql17
+    sudo apt-get install -y unixodbc-dev msodbcsql18
     python -m pip install --upgrade pip
     pip install pyodbc pandas sqlalchemy
   displayName: 'Install ODBC Driver and dependencies'
