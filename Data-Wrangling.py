@@ -15,7 +15,7 @@ conn = engine.connect()
 
 
 # Run query
-query = "SELECT * FROM your_existing_table"
+query = "SELECT * FROM Leads"
 df = pd.read_sql(query, conn)
 
 # Do your transformation
